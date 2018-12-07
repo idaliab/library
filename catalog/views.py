@@ -59,8 +59,6 @@ class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
     def get_queryset(self):
         return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
         
-
-# Added as part of challenge!
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
 class LoanedBooksAllListView(PermissionRequiredMixin,generic.ListView):
@@ -122,35 +120,35 @@ from django.urls import reverse_lazy
 from .models import Author
 
 
-class AuthorCreate(PermissionRequiredMixin, CreateView):
+class AuthorCreate(CreateView):
     model = Author
     fields = '__all__'
     initial = {'date_of_death':'05/01/2018',}
     permission_required = 'catalog.can_mark_returned'
 
-class AuthorUpdate(PermissionRequiredMixin, UpdateView):
+class AuthorUpdate(UpdateView):
     model = Author
     fields = ['first_name','last_name','date_of_birth','date_of_death']
     permission_required = 'catalog.can_mark_returned'
 
-class AuthorDelete(PermissionRequiredMixin, DeleteView):
+class AuthorDelete(DeleteView):
     model = Author
     success_url = reverse_lazy('authors')
     permission_required = 'catalog.can_mark_returned'
     
 
 # Classes created for the forms challenge
-class BookCreate(PermissionRequiredMixin, CreateView):
+class BookCreate(CreateView):
     model = Book
     fields = '__all__'
     permission_required = 'catalog.can_mark_returned'
 
-class BookUpdate(PermissionRequiredMixin, UpdateView):
+class BookUpdate(UpdateView):
     model = Book
     fields = '__all__'
     permission_required = 'catalog.can_mark_returned'
 
-class BookDelete(PermissionRequiredMixin, DeleteView):
+class BookDelete(DeleteView):
     model = Book
     success_url = reverse_lazy('books')
     permission_required = 'catalog.can_mark_returned'
